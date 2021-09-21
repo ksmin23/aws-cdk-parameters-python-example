@@ -1,4 +1,5 @@
 # How to use Parameters in AWS CDK Python
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 This is a repository to rewrite [bobbyhadz/aws-cdk-parameters-example \(TypeScript\)](https://github.com/bobbyhadz/aws-cdk-parameters-example) in Python.<br/>
 Please checkout [bobbyhadz/aws-cdk-parameters-example \(Typescript\)](https://github.com/bobbyhadz/aws-cdk-parameters-example) and [How to use Parameters in AWS CDK - Complete Guide \(2021-04-23\)](https://bobbyhadz.com/blog/aws-cdk-parameters-example), if you want to see the original source code.
