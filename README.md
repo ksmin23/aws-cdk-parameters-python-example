@@ -1,7 +1,9 @@
+# How to use Parameters in AWS CDK Python
 
-# Welcome to your CDK Python project!
+This is a repository to rewrite [bobbyhadz/aws-cdk-parameters-example \(TypeScript\)](https://github.com/bobbyhadz/aws-cdk-parameters-example) in Python.<br/>
+Please checkout [bobbyhadz/aws-cdk-parameters-example \(Typescript\)](https://github.com/bobbyhadz/aws-cdk-parameters-example) and [How to use Parameters in AWS CDK - Complete Guide \(2021-04-23\)](https://bobbyhadz.com/blog/aws-cdk-parameters-example), if you want to see the original source code.
 
-This is a blank project for Python development with CDK.
+## How to use
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
@@ -39,15 +41,51 @@ $ pip install -r requirements.txt
 
 At this point you can now synthesize the CloudFormation template for this code.
 
-```
-$ cdk synth
-```
+<pre>
+$ export CDK_DEFAULT_ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+$ export CDK_DEFAULT_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+$ cdk synth \
+    --parameters databasePort=3306 \
+    --parameters dynamoDBTableName=MyDynamoTable \
+    --parameters favoriteRegions="us-east-1,us-west-2"
+</pre>
+
+If you generate a CloudFormation template based on our current CDK app, you would see the plain CloudFormation Parameters section:
+
+<pre>
+Parameters:
+  databasePort:
+    Type: Number
+    Default: 3306
+    AllowedValues:
+      - "1000"
+      - "3000"
+      - "3306"
+    Description: The database port to open for ingress connections
+    MaxValue: 10000
+    MinValue: 1
+  dynamoDBTableName:
+    Type: String
+    Description: The name of the DynamoDB table
+  favoriteRegions:
+    Type: CommaDelimitedList
+    Description: An array of regions
+</pre>
+
+Use `cdk deploy` command to create the stack shown above.
+
+<pre>
+$ cdk deploy \
+    --parameters databasePort=3306 \
+    --parameters dynamoDBTableName=MyDynamoTable \
+    --parameters favoriteRegions="us-east-1,us-west-2"
+</pre>
 
 To add additional dependencies, for example other CDK libraries, just add
 them to your `setup.py` file and rerun the `pip install -r requirements.txt`
 command.
 
-## Useful commands
+### Useful commands
 
  * `cdk ls`          list all stacks in the app
  * `cdk synth`       emits the synthesized CloudFormation template
@@ -56,3 +94,9 @@ command.
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+
+## References
+
+ * [How to use Parameters in AWS CDK - Complete Guide \(2021-04-23\)](https://bobbyhadz.com/blog/aws-cdk-parameters-example)
+ * [bobbyhadz/aws-cdk-parameters-example \(TypeScript\)](https://github.com/bobbyhadz/aws-cdk-parameters-example)
+
